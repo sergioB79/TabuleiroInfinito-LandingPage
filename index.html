@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabuleiro Infinito — Tomás Nazário</title>
+<meta name="description" content="Aprende a ver melhor antes de mover. Um livro de orientação para pensar e decidir quando a vida já está em posição difícil.">
+<meta property="og:title" content="Tabuleiro Infinito">
+<meta property="og:description" content="Aprende a ver melhor antes de mover.">
+<meta property="og:type" content="book">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #ede9e1;
+    --cream-soft: #f5f2ea;
+    --ink: #0a0a0a;
+    --graphite: #3a3630;
+    --border: #d8d3ca;
+    --accent: #8b3a2a;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "EB Garamond", Georgia, serif;
+    background-color: var(--cream);
+    color: var(--graphite);
+    line-height: 1.72;
+    font-size: 19px;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 100px 28px;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 56px 22px; }
+    body { font-size: 17px; }
+  }
+
+  /* HEADER */
+  header { margin-bottom: 80px; }
+
+  .author {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--ink);
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 4.2rem;
+    font-weight: 900;
+    color: var(--ink);
+    margin: 0 0 24px 0;
+    line-height: 1.02;
+    letter-spacing: -1.5px;
+  }
+
+  @media (max-width: 600px) { h1 { font-size: 2.7rem; } }
+
+  .subtitle {
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--ink);
+    line-height: 1.4;
+    max-width: 560px;
+  }
+
+  /* LEAD */
+  .lead {
+    margin: 56px 0;
+    font-size: 1.18rem;
+    color: var(--ink);
+  }
+
+  .lead p { margin-bottom: 22px; }
+
+  .lead p:first-child::first-letter {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 3.4rem;
+    font-weight: 900;
+    float: left;
+    line-height: 0.9;
+    margin: 6px 10px 0 0;
+    color: var(--ink);
+  }
+
+  /* SECTIONS */
+  .section { margin: 90px 0; }
+
+  .section-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 36px 0;
+    padding-top: 38px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section p { margin-bottom: 22px; }
+
+  /* RETURNS — what the reader gets */
+  .return {
+    margin-bottom: 44px;
+  }
+
+  .return-label {
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .return-body {
+    margin: 0;
+  }
+
+  .return-gets {
+    display: block;
+    margin-top: 12px;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.05rem;
+  }
+
+  /* PROMISE */
+  .promise {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.7rem;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 90px 0;
+    padding: 0 10px;
+    text-align: center;
+    letter-spacing: -0.3px;
+  }
+
+  .promise .not {
+    display: block;
+    font-family: "EB Garamond", serif;
+    font-style: normal;
+    font-size: 1.1rem;
+    color: var(--graphite);
+    margin-bottom: 28px;
+    letter-spacing: 0;
+    line-height: 1.6;
+  }
+
+  /* BIOGRAPHY */
+  .biography p { margin-bottom: 22px; }
+
+  /* PATCH */
+  .patch {
+    margin: 90px 0 50px 0;
+    padding: 38px 0 30px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+    color: var(--graphite);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .patch strong {
+    font-weight: 500;
+    font-style: normal;
+    color: var(--ink);
+  }
+
+  /* PURCHASE */
+  .purchase { margin: 70px 0 40px 0; }
+
+  .purchase-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.6rem;
+    color: var(--ink);
+    margin: 0 0 22px 0;
+  }
+
+  .purchase p { margin-bottom: 20px; }
+
+  .kdp-link {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 14px 30px;
+    background: var(--ink);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: background 0.2s ease;
+  }
+
+  .kdp-link:hover { background: var(--accent); }
+
+  /* EMAIL */
+  .email-block {
+    margin: 56px 0;
+    padding-top: 38px;
+    border-top: 1px solid var(--border);
+  }
+
+  .email-block p { margin-bottom: 22px; font-size: 1.05rem; }
+
+  .email-form {
+    display: flex;
+    align-items: flex-end;
+    max-width: 460px;
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 8px;
+  }
+
+  .email-input {
+    background: transparent;
+    border: none;
+    font-family: "EB Garamond", serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    flex-grow: 1;
+    padding: 6px 0;
+    outline: none;
+    font-style: italic;
+  }
+
+  .email-input::placeholder { color: #9c968d; }
+
+  .email-submit {
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    font-family: "Playfair Display", serif;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0 6px;
+    transition: transform 0.2s ease;
+  }
+
+  .email-submit:hover { transform: translateX(6px); }
+
+  /* FOOTER */
+  footer {
+    margin-top: 110px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--graphite);
+  }
+
+  ::selection { background: var(--ink); color: var(--cream); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="author">Tomás Nazário</div>
+    <h1>Tabuleiro Infinito</h1>
+    <div class="subtitle">Sobre decisão, degradação e o que fica depois do cálculo.</div>
+  </header>
+
+  <main>
+
+    <section class="lead">
+      <p>Muitas vidas não estão desequilibradas por excesso de drama. Estão degradadas por pequenas obrigações sem fim visível. Ninguém perde a posição de uma vez; perde-se em movimentos mínimos, justificáveis, quase correctos.</p>
+
+      <p>Ao fim do dia, a competência acumulada não produziu orientação. Sabes fazer muitas coisas, mas já não sabes porquê.</p>
+
+      <p>Este é um livro de orientação para pensar e decidir quando a vida já está em posição difícil. Não promete felicidade, motivação, nem método mágico. Propõe outra coisa: aprender a ler a própria vida como uma posição — e a ver melhor antes de mover.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">O que este livro te dá</h2>
+
+      <div class="return">
+        <div class="return-label">Uma linguagem para perceber onde estás.</div>
+        <p class="return-body">Vocabulário para situações que muita gente sente mas não sabe nomear: desgaste acumulado, decisões adiadas, medo disfarçado de prudência, excesso de análise, cansaço que parece clareza, vida em modo de reacção. A metáfora do tabuleiro transforma confusão interior em posição observável.
+        <span class="return-gets">Clareza posicional.</span></p>
+      </div>
+
+      <div class="return">
+        <div class="return-label">Um sistema prático de decisão.</div>
+        <p class="return-body">Dezasseis regras derivadas da leitura posicional do xadrez — controlo do centro, profilaxia, sacrifício, overextension, reversibilidade da jogada, fadiga decisional — aplicáveis a trabalho, relações, dinheiro, criação, conflitos e momentos de transição. Não são metáfora bonita. São ferramentas portáteis.
+        <span class="return-gets">Um sistema mental que anda contigo.</span></p>
+      </div>
+
+      <div class="return">
+        <div class="return-label">Um espelho exigente.</div>
+        <p class="return-body">O livro não te deixa confortável. Obriga-te a perguntar: que posição construí para chegar aqui? Estou a agir ou só a reagir? Isto é prudência ou medo? Estou lúcido ou apenas activado? Não infantiliza. Trata-te como adulto, responsável, jogador.
+        <span class="return-gets">Responsabilidade sem moralismo.</span></p>
+      </div>
+
+      <div class="return">
+        <div class="return-label">Uma experiência de leitura.</div>
+        <p class="return-body">Não recebes só conteúdo. Recebes frases trabalhadas, ritmo, imagens, densidade, voz. Isto não é manual de produtividade. É ensaio de estratégia pessoal e lucidez contemporânea, escrito para ser lido, não consultado.
+        <span class="return-gets">Um livro, não um resumo.</span></p>
+      </div>
+
+      <div class="return">
+        <div class="return-label">Uma ética da lucidez.</div>
+        <p class="return-body">O livro não termina em "calcula melhor". Chega ao ponto mais difícil: saber quando o cálculo salva e quando esteriliza. Quando parar de calcular para voltar a estar presente. A partir daí, o que recebes já não é só estratégia. É limite, presença e uma forma de humanidade.
+        <span class="return-gets">Saber quando parar de calcular.</span></p>
+      </div>
+    </section>
+
+    <div class="promise">
+      <span class="not">Não é "vais vencer". Não é "desbloqueia a tua melhor versão". Não é "segue estes passos e resolve a vida".</span>
+      Vais aprender a ver melhor antes de mover.
+    </div>
+
+    <section class="section">
+      <h2 class="section-title">O chão atrás do método</h2>
+
+      <div class="biography">
+        <p>Este sistema não foi deduzido numa torre de marfim. Foi moldado por duas décadas de análise sistemática em mercados financeiros — um ambiente que não discute, apenas executa. Mas as regras vieram de um subsolo mais antigo.</p>
+
+        <p>Nascer português na Alemanha e regressar a Nazaré aos catorze anos, sem dominar a língua, obriga a viver por leitura. Aprendes a medir distâncias, a ler o silêncio, a antecipar a ameaça antes que ela ganhe corpo. A disponibilidade torna-se técnica antiga de sobrevivência: caber depressa para não ser expulso devagar.</p>
+
+        <p>Sobrou tempo para ouvir a pergunta que o ruído das convenções abafava: que parte de mim estou a sacrificar para manter uma vida que parece correcta? Direcção não é o mesmo que progresso. Progresso pode ser apenas continuar a subir dentro de um edifício errado.</p>
+      </div>
+    </section>
+
+    <div class="patch">
+      <p><strong>Tabuleiro Infinito</strong> aparece como Infraestrutura III de um trabalho em curso sob o nome Tomás Nazário. Cada livro deste trabalho existe para ser lido sozinho — não há sequência necessária, nem chave que precise de ser recebida antes. A numeração é apenas registo de ordem interna, para quem quiser saber que há mais a chegar, cada um por si.</p>
+    </div>
+
+    <section class="purchase">
+      <h2 class="purchase-title">O livro</h2>
+      <p>Edição de autor via Amazon KDP. Capa mole e formato digital.</p>
+      <a href="#" class="kdp-link">Ver na Amazon →</a>
+    </section>
+
+    <div class="email-block">
+      <p>Se preferires, deixa aqui o teu endereço para receberes aviso quando o próximo livro estiver disponível. Sem newsletter, sem outros contactos.</p>
+      <form class="email-form" action="#" method="POST">
+        <input class="email-input" type="email" placeholder="o teu endereço" required>
+        <button class="email-submit" type="submit">→</button>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    Nazaré, 2026.
+  </footer>
+
+</div>
+
+</body>
+</html>
