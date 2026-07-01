@@ -256,6 +256,15 @@
 
   .email-submit:hover { transform: translateX(6px); }
 
+  .email-feedback {
+    margin-top: 22px;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+
+  .email-feedback-error { color: var(--accent); }
+
   /* FOOTER */
   footer {
     margin-top: 110px;
@@ -352,10 +361,12 @@
 
     <div class="email-block">
       <p>Se preferires, deixa aqui o teu endereço para receberes aviso quando o próximo livro estiver disponível. Sem newsletter, sem outros contactos.</p>
-      <form class="email-form" action="#" method="POST">
-        <input class="email-input" type="email" placeholder="o teu endereço" required>
+      <form class="email-form" id="aviso-form" action="https://formspree.io/f/xkolqenz" method="POST">
+        <input class="email-input" type="email" name="email" placeholder="o teu endereço" required>
         <button class="email-submit" type="submit">→</button>
       </form>
+      <p class="email-feedback" id="email-success" hidden>Ficas na lista. Escrevo quando houver livro novo — não antes.</p>
+      <p class="email-feedback email-feedback-error" id="email-error" hidden>Algo falhou no envio. Tenta outra vez, ou escreve directamente.</p>
     </div>
 
   </main>
@@ -365,6 +376,36 @@
   </footer>
 
 </div>
+
+<script>
+  (function () {
+    var form = document.getElementById('aviso-form');
+    var success = document.getElementById('email-success');
+    var error = document.getElementById('email-error');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      error.hidden = true;
+
+      var data = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function (response) {
+        if (response.ok) {
+          form.hidden = true;
+          success.hidden = false;
+        } else {
+          error.hidden = false;
+        }
+      }).catch(function () {
+        error.hidden = false;
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
